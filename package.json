@@ -1,6 +1,6 @@
 {
     "name": "@x64squares/stockfish-socket-client",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Client for connecting to stockfish-socket-server",
     "main": "index.js",
     "scripts": {
