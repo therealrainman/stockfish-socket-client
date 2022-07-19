@@ -9,7 +9,7 @@ var client = new WebSocketClient();
 const version = require('../package.json').version;
 program
     .version(version)
-    .option('--server-url <url>', 'URL of the stockfish-socket-server')
+    .option('--server-url <url>', 'URL of the stockfish-socket-server');
 
 program.parse(process.argv);
 const options = program.opts();
@@ -17,10 +17,16 @@ const options = program.opts();
 // Use --server-url value if given; otherwise default to serverUrl from config.json
 var serverUrl = require('./config.json').serverUrl;
 if (options.serverUrl) {
-    serverUrl = options.serverUrl
+    serverUrl = options.serverUrl;
 }
 
 // Set up connection behavior
+client.on('connectFailed', function(error) {
+    console.log(`Could not connect to ${serverUrl}\n` +
+                `ERROR: ${error.toString()}`);
+    process.exit(-1);
+});
+
 client.on('connect', function (connection) {
     // Print received message
     connection.on('message', function (message) {
@@ -46,7 +52,7 @@ client.on('connect', function (connection) {
 
     rl.on('line', function (line) {
         connection.sendUTF(line.toString());
-    })
+    });
 });
 
 client.connect(`${serverUrl.toString()}/senduci`);
