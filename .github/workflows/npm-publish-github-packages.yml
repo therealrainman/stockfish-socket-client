@@ -3,10 +3,7 @@ name: Build and Publish
 on:
   push:
     branches:
-      - "main"
-  pull_request:
-    branches:
-      - "main"
+      - "*"
 
 jobs:
   build-and-publish-gpr:
