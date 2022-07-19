@@ -1,0 +1,52 @@
+#!/usr/bin/env node
+
+const { program } = require('commander');
+var readline = require('readline');
+var WebSocketClient = require('websocket').client;
+var client = new WebSocketClient();
+
+// Command line options
+const version = require('../package.json').version;
+program
+    .version(version)
+    .option('--server-url <url>', 'URL of the stockfish-socket-server')
+
+program.parse(process.argv);
+const options = program.opts();
+
+// Use --server-url value if given; otherwise default to serverUrl from config.json
+var serverUrl = require('./config.json').serverUrl;
+if (options.serverUrl) {
+    serverUrl = options.serverUrl
+}
+
+// Set up connection behavior
+client.on('connect', function (connection) {
+    // Print received message
+    connection.on('message', function (message) {
+        if (message.type === 'utf8') {
+            console.log(message.utf8Data);
+        }
+    });
+
+    // Handle quit command
+    connection.on('close', function(reasonCode, description) {
+        console.log(`Connection closed: ` +
+                    `code: ${reasonCode} ` +
+                    `reason: ${description}`);
+        process.exit(0);
+    });
+
+    // Send stdin to Websocket server
+    var rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+        terminal: false
+    });
+
+    rl.on('line', function (line) {
+        connection.sendUTF(line.toString());
+    })
+});
+
+client.connect(`${serverUrl.toString()}/senduci`);
