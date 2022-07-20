@@ -1,10 +1,17 @@
 {
-    "name": "stockfish-socket-client",
+    "name": "@x64squares/stockfish-socket-client",
     "version": "1.0.0",
-    "description": "Client for stockfish-socket",
+    "description": "Client for connecting to stockfish-socket-server",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error:  no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/x64squares/stockfish-socket-client.git"
+    },
+    "publishConfig": {
+        "registry":"https://npm.pkg.github.com"
     },
     "author": "x64squares",
     "license": "ISC",
