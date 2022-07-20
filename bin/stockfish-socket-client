@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
-const { program } = require('commander');
+const homedir = require('os').homedir();
+const fs = require('fs');
+const program = require('commander');
 var readline = require('readline');
 var WebSocketClient = require('websocket').client;
 var client = new WebSocketClient();
@@ -14,8 +16,26 @@ program
 program.parse(process.argv);
 const options = program.opts();
 
-// Use --server-url value if given; otherwise default to serverUrl from config.json
-var serverUrl = require('./config.json').serverUrl;
+// Priority for serverUrl:
+// 1. --server-url cmd line arg value
+// 2. serverUrl from ${HOME}/.config/stockfish_socket_client/config.json
+// 3. serverUrl from module defaultconfig.json
+var serverUrl = require('./defaultconfig.json').serverUrl;
+
+const homeConfigFile = require('path').join(
+    homedir,
+    '.config',
+    'stockfish_socket_client',
+    'config.json'
+);
+
+if (fs.existsSync(homeConfigFile)) {
+    homeConfigServerUrl = require(homeConfigFile).serverUrl;
+    if (homeConfigServerUrl) {
+        serverUrl = homeConfigServerUrl;
+    }
+}
+
 if (options.serverUrl) {
     serverUrl = options.serverUrl;
 }
