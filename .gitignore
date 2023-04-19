@@ -104,5 +104,6 @@ dist
 .tern-port
 
 # IDE settings
+.idea/
 .vscode/
 .DS_Store
