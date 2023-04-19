@@ -1,17 +1,17 @@
 # stockfish-socket-client
-Node.js client for connecting to [stockfish-socket-server](https://github.com/x64squares/stockfish-socket-server)
+Node.js client for connecting to [stockfish-socket-server](https://github.com/x64squared/stockfish-socket-server)
 
 ## Installation
 
 1. Configure your `~/.npmrc` file for authentication with Github Packages using a Personal Access Token:
 ```
 //npm.pkg.github.com/:_authToken=YOUR_ACCESS_TOKEN
-@x64squares:registry=https://npm.pkg.github.com
+@x64squared:registry=https://npm.pkg.github.com
 ```
 
 2. Install using `npm`:
 ```bash
-npm install -g @x64squares/stockfish-socket-client
+npm install -g @x64squared/stockfish-socket-client
 ```
 
 3. Check installation
